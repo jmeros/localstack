@@ -430,6 +430,9 @@ def start_lambda_sqs_listener():
                     lambda_arn = source['FunctionArn']
                     batch_size = max(min(source.get('BatchSize', 1), 10), 1)
 
+                    if source.get('State') != 'Enabled':
+                        continue
+
                     try:
                         region_name = queue_arn.split(':')[3]
                         queue_url = aws_stack.sqs_queue_url_for_arn(queue_arn)
